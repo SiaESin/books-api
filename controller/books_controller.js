@@ -1,6 +1,6 @@
 const express = require('express')
 const books = express.Router()
-const Books = require('../models/books.js')
+const Book = require('../models/books.js')
 
 module.exports = books
 books.get('/seed', (req, res) => {
@@ -40,5 +40,30 @@ books.get('/seed', (req, res) => {
         }))
 })
 
+//listBooks
+books.get('/', (req, res) => {
 
-books.get ('')
+    .then(res.status(200).json({
+        message: 'Seed successful'
+    }))
+    .catch(res.status(400).json({
+        message: 'Seed unsuccessful'
+    }))
+})
+
+//show
+books.get('/:id', (req, res) => {
+
+})
+//updateBook
+books.put('/:id', (req, res) => {
+
+})
+//removeBook
+books.delete('/:id', (req, res) => {
+
+})
+//addBook
+books.post('/', (req, res) => {
+
+})
