@@ -3,6 +3,7 @@ const books = express.Router()
 const Book = require('../models/books.js')
 
 module.exports = books
+
 books.get('/seed', (req, res) => {
     Book.insertMany([{
         "title": "The Shinobi Initiative",
@@ -42,28 +43,67 @@ books.get('/seed', (req, res) => {
 
 //listBooks
 books.get('/', (req, res) => {
-
-    .then(res.status(200).json({
-        message: 'Seed successful'
-    }))
-    .catch(res.status(400).json({
-        message: 'Seed unsuccessful'
-    }))
+  Book.find()
+    .then(foundBook => {
+      res.json(foundBook) 
+    })
+    .catch(err => {
+      res.json ({
+        message: 'Unsuccessful search'
+    })
+  })
 })
 
 //show
 books.get('/:id', (req, res) => {
-
+  Book.findById(req.params.id)
+        .then(foundBook => {
+            res.json(foundBook)
+        })
+        .catch(err => {
+          res.json ({
+            message: 'Unsuccessful search'
+        })
+      })
 })
+
 //updateBook
 books.put('/:id', (req, res) => {
-
+  Book.findByIdAndUpdate(req.params.id)
+        .then(updatedBook => {
+            res.json(updatedBook)
+        })
+        .catch(err => {
+          res.json ({
+            message: 'Update unsuccessful'
+        })
+      })
 })
-//removeBook
-books.delete('/:id', (req, res) => {
 
-})
 //addBook
 books.post('/', (req, res) => {
+  Book.create(req.body)
+        .then(createdBook => {
+            res.json(createdBook)
+        })
+        .catch(err => {
+          res.json ({
+            message: 'Add unsuccessful'
+        })
+      })
+})
 
+//removeBook
+books.delete('/:id', (req, res) => {
+  Book.findByIdAndDelete(req.params.id)
+        .then(deletedBook => {
+            res.json({
+              message: 'Successfully deleted'
+            })
+        })
+        .catch(err => {
+          res.json ({
+            message: 'Delete unsuccessful'
+        })
+      })
 })
